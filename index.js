@@ -17,7 +17,7 @@ const server = http.createServer(app)
 const io = new Server(server, {
     // Configura CORS para permitir conexiones desde el frontend.
     cors: {
-        origin: "http://localhost:5173",
+        origin: "*",
         methods: ["GET","POST"]
     }
 })
