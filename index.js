@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io'
+import db from './config/db.js';
 
 // Creacion de la app
 const app = express()
@@ -21,6 +22,14 @@ const io = new Server(server, {
         methods: ["GET","POST"]
     }
 })
+
+try {
+    await db.authenticate();
+    db.sync();
+    console.log('Conexion correcta a la db');
+} catch (error) {
+    console.log(error);
+}
 
 // Escucha el evento "connection" para cada nuevo cliente que se conecta.
 io.on("connection", (socket) => {
