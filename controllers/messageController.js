@@ -32,6 +32,30 @@ const getMessageByIdAuthor = async (req, res) => {
     }
 };
 
+const getRoomByName = async (req, res) => {
+    try {
+        const { roomName } = req.params;
+
+        // Busca todos los mensajes donde el id_author coincida con el idUser
+        const mensajes = await Mensaje.findAll({
+            where: {
+                room: roomName
+            }
+        });
+
+        if (!mensajes || mensajes.length === 0) {
+            return res.status(404).json({ error: "No se encontraron mensajes para el id_author proporcionado" });
+        }
+
+
+        return res.json({ mensajes });
+    } catch (error) {
+        console.error("Error al obtener los mensajes:", error);
+        return res.status(500).json({ error: "Error del servidor" });
+    }
+};
+
+
 const initializeSocket = (server) => {
     // Crea una nueva instancia del servidor Socket.io
     const io = new Server(server, {
@@ -49,7 +73,7 @@ const initializeSocket = (server) => {
 
         // Escucha el evento "join_room" para el cliente actual.
         socket.on("join__room", (data) => {
-            console.log(`Usuario con id: ${socket.id} se unio a la sala: ${data}`);
+            console.log(`Usuario con id: ${socket.id} se unio a la sala: ${data + "holanda"}`);
             socket.join(data);
         });
 
@@ -87,5 +111,6 @@ const initializeSocket = (server) => {
 export {
     initializeSocket,
     getMessages,
-    getMessageByIdAuthor
+    getMessageByIdAuthor,
+    getRoomByName
 }
