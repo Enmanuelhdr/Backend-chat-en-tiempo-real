@@ -7,12 +7,12 @@ dotenv.config({ path: '.env' })
 const envioDeEmails = async (datos) => {
 
     const transport = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        host: smtp.office365.com,
+        port: 587,
         secure: false,
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASSWORD
+            user: "eduasynchub@outlook.com",
+            pass: "asynchub.123.pruebas"
         }
     })
 
